@@ -22,8 +22,16 @@ function createImageElement(url) {
 
 // Cargar galería desde localStorage al iniciar la página
 function loadGallery() {
-    const savedImages = JSON.parse(localStorage.getItem('galleryImages')) || [];
-    savedImages.forEach(url => createImageElement(url));
+    const savedImages = JSON.parse(localStorage.getItem('galleryImages'));
+
+    if (savedImages && savedImages.length > 0) {
+        // Si ya hay imágenes guardadas
+        savedImages.forEach(url => createImageElement(url));
+    } else {
+        // Si NO hay nada, cargar la imagen de assets
+        defaultImages.forEach(url => createImageElement(url));
+        localStorage.setItem('galleryImages', JSON.stringify(defaultImages));
+    }
 }
 
 // Guardar una nueva URL en localStorage
